@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import {
   StyleSheet,
   View,
@@ -11,10 +11,18 @@ import { HomeProps } from '../App';
 import HomeTile from "../components/HomeTile";
 import { tileList, Tile } from '../components/HomeTile/types';
 import TodayRow from '../components/TodayRow';
+import ItemDataService from "../api/routes/items.route";
 
 const HomeScreen = (props: HomeProps) => {
   const { navigation } = props;
   const { container, tileContainer, label, todayContainer } = styles;
+
+  useEffect(() => {
+    ItemDataService.getAll()
+      .then(result => console.log(result.data))
+      .catch(err => console.log(err));
+  }, [])
+
 
   const renderItem: ListRenderItem<Tile> = ({ item }) => {
     const params = item.paramType ? { type: item.paramType } : undefined;
