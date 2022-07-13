@@ -9,7 +9,7 @@ import Filter from './screens/Filter';
 export type RootStackParamList = {
   Home: undefined;
   Stats: undefined;
-  Filter: { type: String };
+  Filter: { type: string };
 };
 
 export type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'>;

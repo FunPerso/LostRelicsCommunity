@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -12,28 +12,27 @@ import HomeTile from "../components/HomeTile";
 import { tileList, Tile } from '../components/HomeTile/types';
 import TodayRow from '../components/TodayRow';
 import ItemDataService from "../api/routes/items.route";
+import SummaryDataService from "../api/routes/summary.route";
+import IItemData from '../api/types/items.type';
+import ISummaryData from '../api/types/summary.type';
 
 const HomeScreen = (props: HomeProps) => {
   const { navigation } = props;
   const { container, tileContainer, label, todayContainer } = styles;
+  const [data, setData] = useState<ISummaryData>();
 
   useEffect(() => {
-    ItemDataService.getAll()
-      .then(result => console.log(result.data))
+    SummaryDataService.get()
+      .then(result => setData(result.data))
       .catch(err => console.log(err));
   }, [])
 
-
-  const renderItem: ListRenderItem<Tile> = ({ item }) => {
-    const params = item.paramType ? { type: item.paramType } : undefined;
-
-    return (
-      <HomeTile
-        content={item}
-        onPress={() => navigation.navigate(item.navigate, params)}
-      />
-    )
-  };
+  const renderItem: ListRenderItem<Tile> = ({ item }) => (
+    <HomeTile
+      content={item}
+      onPress={() => navigation.navigate(item.navigate, { type: item.paramType })}
+    />
+  );
 
   return (
     <View style={container}>
@@ -49,9 +48,9 @@ const HomeScreen = (props: HomeProps) => {
 
       <View style={todayContainer}>
         <Text style={label}>So Far Today</Text>
-        <TodayRow label={"Shadow Stones Dropped"} count={1234} />
-        <TodayRow label={"Adventures Completed"} count={110} />
-        <TodayRow label={"Blockchain Items Looted"} count={12} />
+        <TodayRow label={"Shadow Stones Dropped"} count={data?.SSLooted || 0} />
+        <TodayRow label={"Adventures Completed"} count={data?.successfulCount || 0} />
+        <TodayRow label={"Blockchain Items Looted"} count={data?.BCLooted || 0} />
       </View>
     </View>
   );

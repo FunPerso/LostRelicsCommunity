@@ -6,11 +6,11 @@ export type HomeTileProps = {
 };
 
 export type Tile = {
-  id: Number;
+  id: number;
   backgroundImage: any;
-  label: String;
+  label: string;
   navigate: keyof RootStackParamList;
-  paramType?: String;
+  paramType: string;
 }
 
 export const tileList: Array<Tile> = [
@@ -18,7 +18,8 @@ export const tileList: Array<Tile> = [
     id: 1,
     backgroundImage: null,
     label: "Shadow Stones",
-    navigate: "Stats"
+    navigate: "Stats",
+    paramType: "ShadowStone"
   },
   {
     id: 2,

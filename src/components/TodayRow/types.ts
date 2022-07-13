@@ -1,5 +1,5 @@
 export type TodayRowProps = {
-  label: String,
-  count: Number,
+  label: string,
+  count: number,
   icon?: any
 };
